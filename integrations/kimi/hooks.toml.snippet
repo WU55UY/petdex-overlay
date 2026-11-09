@@ -1,0 +1,60 @@
+# petdex overlay hooks for Kimi Code
+#
+# install.ps1 appends a generated block with absolute paths to
+# %USERPROFILE%\.kimi-code\config.toml. This file is the reference snippet if
+# you prefer to merge it by hand.
+#
+# Replace <PETDEX_HOME> with the real install path, e.g.
+# C:/Users/you/.petdex, and keep forward slashes in TOML strings.
+
+# >>> petdex overlay >>>
+[[hooks]]
+event = "SessionStart"
+command = "node \"<PETDEX_HOME>/hooks/bridge.mjs\" kimi workspace-open"
+timeout = 15
+
+[[hooks]]
+event = "SessionEnd"
+command = "node \"<PETDEX_HOME>/hooks/bridge.mjs\" kimi session-end"
+timeout = 5
+
+[[hooks]]
+event = "UserPromptSubmit"
+command = "node \"<PETDEX_HOME>/hooks/bridge.mjs\" kimi user-prompt"
+timeout = 15
+
+[[hooks]]
+event = "PreToolUse"
+command = "node \"<PETDEX_HOME>/hooks/bridge.mjs\" kimi pre"
+timeout = 5
+
+[[hooks]]
+event = "PostToolUse"
+command = "node \"<PETDEX_HOME>/hooks/bridge.mjs\" kimi post"
+timeout = 5
+
+[[hooks]]
+event = "PostToolUseFailure"
+command = "node \"<PETDEX_HOME>/hooks/bridge.mjs\" kimi post"
+timeout = 5
+
+[[hooks]]
+event = "Stop"
+command = "node \"<PETDEX_HOME>/hooks/bridge.mjs\" kimi stop"
+timeout = 15
+
+[[hooks]]
+event = "Interrupt"
+command = "node \"<PETDEX_HOME>/hooks/bridge.mjs\" kimi interrupt"
+timeout = 15
+
+[[hooks]]
+event = "StopFailure"
+command = "node \"<PETDEX_HOME>/hooks/bridge.mjs\" kimi stop-failure"
+timeout = 15
+
+[[hooks]]
+event = "Notification"
+command = "node \"<PETDEX_HOME>/hooks/bridge.mjs\" kimi notification"
+timeout = 5
+# <<< petdex overlay <<<

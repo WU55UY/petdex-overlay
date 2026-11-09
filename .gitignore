@@ -1,0 +1,13 @@
+node_modules/
+__pycache__/
+*.pyc
+*.log
+.win-ca-bundle.pem
+.gh-token*
+Thumbs.db
+desktop.ini
+
+# local install dry-runs and overlay screenshots
+.install-test/
+overlay-shot*.png
+overlay-print.png

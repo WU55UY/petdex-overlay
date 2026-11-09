@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "hooks": {
+    "workspaceOpen": [
+      { "command": "PLACEHOLDER cursor workspace-open", "timeout": 10 }
+    ],
+    "sessionStart": [
+      { "command": "PLACEHOLDER cursor boot", "timeout": 10 }
+    ],
+    "sessionEnd": [
+      { "command": "PLACEHOLDER cursor session-end", "timeout": 5 }
+    ],
+    "beforeSubmitPrompt": [
+      { "command": "PLACEHOLDER cursor user-prompt", "timeout": 5 }
+    ],
+    "preToolUse": [
+      { "command": "PLACEHOLDER cursor pre", "timeout": 5 }
+    ],
+    "postToolUse": [
+      { "command": "PLACEHOLDER cursor post", "timeout": 5 }
+    ],
+    "postToolUseFailure": [
+      { "command": "PLACEHOLDER cursor post", "timeout": 5 }
+    ],
+    "afterAgentResponse": [
+      { "command": "PLACEHOLDER cursor ensure-idle", "timeout": 5 }
+    ],
+    "stop": [
+      { "command": "PLACEHOLDER cursor stop", "timeout": 5 }
+    ]
+  }
+}

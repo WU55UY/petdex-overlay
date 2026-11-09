@@ -1,0 +1,7 @@
+{
+  "id": "sample",
+  "displayName": "Byte",
+  "description": "A tiny terminal cat that rides along with your coding agent.",
+  "spritesheetPath": "spritesheet.png",
+  "spriteVersionNumber": 4
+}
