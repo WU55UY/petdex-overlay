@@ -253,7 +253,7 @@ petdex-overlay/
 ├── data/items.json            # 521 件战利品
 ├── pets/sample/               # 原创示例宠物
 ├── tools/                     # 精灵图生成 / 预览渲染
-├── tests/                     # loot + bridge 测试
+├── tests/                     # loot + bridge + CLI 测试
 └── docs/                      # README 资源
 ```
 
@@ -265,6 +265,7 @@ npm run check   # 测试 + CLI 冒烟
 # 或在没有测试 runner 子进程的环境里分开跑：
 node tests/loot.test.mjs
 node tests/bridge.test.mjs
+node tests/petdex.test.mjs
 ```
 
 测试会在临时目录里跑，不碰 `%USERPROFILE%\.petdex`。

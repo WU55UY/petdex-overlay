@@ -253,7 +253,7 @@ petdex-overlay/
 ├── data/items.json            # 521 loot entries
 ├── pets/sample/               # original sample pet
 ├── tools/                     # spritesheet generator / preview renderer
-├── tests/                     # loot + bridge tests
+├── tests/                     # loot + bridge + CLI tests
 └── docs/                      # README assets
 ```
 
@@ -265,6 +265,7 @@ npm run check   # tests + a CLI smoke check
 # or, where a test runner subprocess is not available, run them separately:
 node tests/loot.test.mjs
 node tests/bridge.test.mjs
+node tests/petdex.test.mjs
 ```
 
 The tests run in temporary directories and never touch `%USERPROFILE%\.petdex`.

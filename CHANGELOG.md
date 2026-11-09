@@ -6,6 +6,16 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- Process discovery is scoped to the current `PETDEX_HOME`: a second install
+  (or a testbed) can no longer be reported as "running" by `status`/`doctor`,
+  and `down`/`toggle` can no longer kill another install's pet.
+
+### Added
+
+- `tests/petdex.test.mjs` covering the install-scoped process filter.
+
 ## [1.0.0] - 2026-11-06
 
 First public release.

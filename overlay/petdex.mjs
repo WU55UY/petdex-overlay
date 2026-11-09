@@ -110,15 +110,42 @@ function runPowerShell(query, timeout = 8000) {
   }
 }
 
+/**
+ * Pick the overlay processes that belong to one install.
+ *
+ * Only processes whose command line names *this* copy of petdex_overlay.py are
+ * claimed, so a second PETDEX_HOME never reports or stops the first one.
+ * Exported for tests.
+ */
+export function filterOverlayPids(rows, overlayPy) {
+  const key = overlayPy.replace(/\//g, "\\").toLowerCase();
+  const list = Array.isArray(rows) ? rows : rows ? [rows] : [];
+  return list
+    .filter(
+      (row) =>
+        typeof row?.CommandLine === "string" &&
+        row.CommandLine.replace(/\//g, "\\").toLowerCase().includes(key),
+    )
+    .map((row) => Number(row.ProcessId))
+    .filter((n) => Number.isFinite(n) && n > 0);
+}
+
 function findOverlayPids() {
   if (process.platform !== "win32") return [];
   const out = runPowerShell(
-    "Get-CimInstance Win32_Process -Filter \"Name='pythonw.exe' OR Name='python.exe'\" | Where-Object { $_.CommandLine -match 'petdex_overlay' } | Select-Object -ExpandProperty ProcessId",
-  );
-  return out
-    .split(/\r?\n/)
-    .map((s) => Number(s.trim()))
-    .filter((n) => Number.isFinite(n) && n > 0);
+    "Get-CimInstance Win32_Process -Filter \"Name='pythonw.exe' OR Name='python.exe'\" | Where-Object { $_.CommandLine -match 'petdex_overlay' } | Select-Object ProcessId,CommandLine | ConvertTo-Json -Compress",
+  )
+    // Windows PowerShell 5.1 writes a BOM with Out-File -Encoding utf8.
+    .replace(/^\uFEFF/, "")
+    .trim();
+  if (!out) return [];
+  let rows;
+  try {
+    rows = JSON.parse(out);
+  } catch {
+    return [];
+  }
+  return filterOverlayPids(rows, OVERLAY_PY);
 }
 
 function findWatchdogPid() {
