@@ -6,7 +6,7 @@ A floating Windows desktop pet. It listens to **Cursor** / **Kimi Code** hooks: 
 
 Compatible with the [petdex](https://petdex.dev) sprite format, and ships with an original sample pet, **Byte**. Fully local: no network calls, no code or conversation ever leaves the machine.
 
-![preview](docs/preview.gif)
+![preview](https://cdn.jsdelivr.net/gh/WU55UY/petdex-overlay@main/docs/preview.gif)
 
 <p>
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-green">
@@ -123,7 +123,7 @@ HUD: `今开N · 红N · 累计N · 待开N` (opened today · reds · total · p
 The repo ships `pets/sample` (Byte), an original cat blob. To use a pet from the petdex gallery:
 
 ```powershell
-# install it with the official petdex CLI into ~/.codex/pets/<slug>
+# install it with the official petdex CLI into ~/.codex/pets/your-slug
 npx petdex install boba
 
 # import into petdex-overlay
@@ -131,12 +131,58 @@ node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" add "$env:USERPROFILE\.codex\
 node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" select boba
 ```
 
-You can also drop a pet folder straight into `%USERPROFILE%\.petdex\pets\<slug>\` and `select` it.
+You can also drop a pet folder straight into `%USERPROFILE%\.petdex\pets\your-slug\` and `select` it.
+
+### Submitting to the Petdex gallery
+
+[petdex](https://petdex.dev) is the gallery for pet **asset packs**; this repository
+is an independent Windows client that reads that format. The two complement each
+other but are not affiliated. Submissions enter an admin queue, and approval or
+rejection is emailed (a rejection includes the reason). `petdex edit` opens a pending edit that re-enters
+the queue, so do not create a duplicate `submit` (rate-limited to 10 / 24h).
+
+```sh
+npx petdex login                                        # OAuth; token in OS keychain
+npx petdex submit ~/.codex/pets/tempest --license LICENSE_ID
+npx petdex edit tempest --desc "..."                     # also --displayName / --meta / --sprite
+```
+
+**Field limits**: `displayName` ≤ 60 characters, `description` ≤ 280, `tags`
+comma-separated. Spritesheets use an 8×9 or 8×11 atlas, ≥256×256, with 1536×1872
+recommended. The nine official states are `idle` / `running-right` /
+`running-left` / `waving` / `jumping` / `failed` / `waiting` / `running` /
+`review` — the same nine rows as the table below.
+
+Ready-to-paste description (`243 characters`, covering states, personality,
+provenance and the unofficial disclaimer):
+
+```
+Tempest — chibi fan-art pet of the orange-haired Delta Force operator. 9 states: idle, run L/R, wave, jump, fail, wait, run, review. Calm under fire, quietly smug after a long tool call. 8x9 atlas. Unofficial; not affiliated with Tencent/TiMi.
+```
+
+Suggested tags: `delta-force, fan-art, chibi, tempest, agent-pet`.
+
+**Attribution** (see section 4 of [NOTICE](NOTICE.md)): `credit` comes from the
+verified OAuth identity and is never trusted from the request body, so the
+unofficial disclaimer belongs in `description`. `license` is a per-pet field and
+`unspecified` is the honest default — pick from `cc0`, `cc-by`, `cc-by-sa`,
+`cc-by-nc` or `all-rights-reserved` yourself rather than letting a tool choose
+rights on your behalf. Character and
+names belong to their holders; Petdex runs a
+[takedown process](https://petdex.dev/legal/takedown) that we comply with.
+
+Once approved, the gallery and this client cross-link in one command:
+
+```powershell
+npx petdex install your-slug
+node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" add "$env:USERPROFILE\.codex\pets\your-slug"
+node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" select your-slug
+```
 
 ### Sprite format
 
 ```
-pets/<slug>/
+pets/your-slug/
 ├── pet.json            # id / displayName / description / spritesheetPath
 └── spritesheet.png     # 8 columns × 9 rows, 192×208 per frame (.webp also works)
 ```

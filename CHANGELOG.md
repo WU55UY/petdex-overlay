@@ -15,6 +15,14 @@ All notable changes to this project are documented here. The format follows
 ### Added
 
 - `tests/petdex.test.mjs` covering the install-scoped process filter.
+- README (中文 / English): a "Submitting to the Petdex gallery" section with the
+  official nine state names, field limits (displayName 60 / description 280),
+  copy-ready description and tags, and a one-command round trip from the gallery
+  back into this client once a submission is approved.
+- `NOTICE.md` section 4: attribution and licensing rules for fan-art pet packs
+  submitted to the gallery (credit is OAuth-bound, license is per-pet).
+- README preview images now load from jsDelivr CDN, matching
+  `dsh-pomodoro-box`, so they do not depend on `raw.githubusercontent.com`.
 
 ## [1.0.0] - 2026-11-06
 

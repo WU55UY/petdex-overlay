@@ -35,3 +35,31 @@ list works — see the "Loot rules" section of the [README](README.md).
 
 The overlay renders text with fonts already installed on the system and falls
 back to the Segoe UI family on Windows. No font files are redistributed here.
+
+## 4. Pet packs submitted to the Petdex gallery
+
+This repository is an independent Windows client that reads the petdex sprite
+format. Pet packs submitted to the [petdex gallery](https://petdex.dev) are
+separate works distributed through Petdex, not through this repository, and are
+**not** covered by the MIT grant above.
+
+For fan-art packs (for example a chibi take on a *Delta Force* operator):
+
+- The character, names and likeness belong to their respective rights holders
+  (Tencent / TiMi Studio Group). Neither this project nor the pack is affiliated
+  with or endorsed by them.
+- Petdex states that it does not claim rights to underlying IP and runs a
+  [takedown process](https://petdex.dev/legal/takedown). Any rights-holder
+  request will be complied with without contest.
+- `credit` is bound to the verified OAuth identity (userId / email / credit) and
+  is never accepted from a submission request body. The unofficial disclaimer
+  and attribution therefore belong in the per-pet `description`.
+- `license` is a per-pet field. `unspecified` is the honest default for anything
+  submitted without a declaration; a permissive license must never be assumed on
+  behalf of a third-party IP holder. `cc0`, `cc-by`, `cc-by-sa`, `cc-by-nc` and
+  `all-rights-reserved` are the available choices — the author picks, not the
+  tooling.
+
+Copy-ready description, tags and the field limits live in the
+"Submitting to the Petdex gallery" sections of [README.md](README.md) and
+[README.en.md](README.en.md).

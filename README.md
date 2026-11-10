@@ -4,9 +4,9 @@
 
 Windows 桌面悬浮宠物。它监听 **Cursor** / **Kimi Code** 的 hook：Agent 思考时跳一下，调工具时来回跑，一轮结束入库一个密封盲盒。双击宠物开箱，攒仓库、点图鉴、吃保底。
 
-兼容 [petdex](https://petdex.dev) 的精灵图格式，自带一只原创示例宠物 **Byte**。纯本地运行，不联网、不上传代码或对话。
+兼容 [petdex](https://petdex.dev) 的精灵图格式（本仓库是独立客户端，非 petdex 官方项目），自带一只原创示例宠物 **Byte**。纯本地运行，不联网、不上传代码或对话。
 
-![preview](docs/preview.gif)
+![preview](https://cdn.jsdelivr.net/gh/WU55UY/petdex-overlay@main/docs/preview.gif)
 
 <p>
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-green">
@@ -123,7 +123,7 @@ HUD：`今开N · 红N · 累计N · 待开N`。
 仓库自带 `pets/sample`（Byte），是一只原创的猫团子。想换成 petdex 画廊里的宠物：
 
 ```powershell
-# 用 petdex 官方 CLI 安装到 ~/.codex/pets/<slug>
+# 用 petdex 官方 CLI 安装到 ~/.codex/pets/your-slug
 npx petdex install boba
 
 # 导入到 petdex-overlay
@@ -131,12 +131,42 @@ node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" add "$env:USERPROFILE\.codex\
 node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" select boba
 ```
 
-也可以直接把宠物文件夹放进 `%USERPROFILE%\.petdex\pets\<slug>\`，再 `select`。
+也可以直接把宠物文件夹放进 `%USERPROFILE%\.petdex\pets\your-slug\`，再 `select`。
+
+### 提交到 Petdex 画廊
+
+[petdex](https://petdex.dev) 是宠物**素材包**的画廊，本仓库是读取该格式的独立 Windows 客户端，两者配套但互不隶属。画廊提交会进管理员队列，批准或拒绝都会发邮件；拒绝会附原因。`petdex edit` 会生成一条待审编辑（`pending edit`）重新进队列，不用重复 `submit`（限流 10 次 / 24h）。
+
+```sh
+npx petdex login                       # OAuth 浏览器授权，凭据存系统钥匙串
+npx petdex submit ~/.codex/pets/tempest --license LICENSE_ID   # 首次提交；见下方许可说明
+npx petdex edit tempest --desc "..."    # 改描述；也支持 --displayName / --meta / --sprite
+```
+
+**字段约束**：`displayName` ≤ 60 字符，`description` ≤ 280 字符，`tags` 逗号分隔。精灵图 8×9 或 8×11 atlas、≥256×256，推荐 1536×1872。九个官方状态是 `idle` / `running-right` / `running-left` / `waving` / `jumping` / `failed` / `waiting` / `running` / `review`（与上面的格式表一致）。
+
+可直接粘贴的描述（`243 字符`，含状态、性格、来源和非官方声明）：
+
+```
+Tempest — chibi fan-art pet of the orange-haired Delta Force operator. 9 states: idle, run L/R, wave, jump, fail, wait, run, review. Calm under fire, quietly smug after a long tool call. 8x9 atlas. Unofficial; not affiliated with Tencent/TiMi.
+```
+
+建议 tags：`delta-force, fan-art, chibi, tempest, agent-pet`。
+
+**授权口径**（对应 [NOTICE](NOTICE.md) 第 4 节）：`credit` 由 OAuth 身份决定，不接受提交表单，所以非官方声明要写进 description；`license` 是 per-pet 字段，`unspecified` 是未声明的诚实默认值，同人素材别默认成宽松许可。可选值 `cc0` / `cc-by` / `cc-by-sa` / `cc-by-nc` / `all-rights-reserved`，由你决定，别让工具替你选。角色与名称归原权利人，Petdex 有 [takedown 流程](https://petdex.dev/legal/takedown)，收到权利人请求即配合下架。
+
+审核通过拿到 slug 后，一行命令就能从画廊导回本客户端，形成互相导流：
+
+```powershell
+npx petdex install your-slug
+node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" add "$env:USERPROFILE\.codex\pets\your-slug"
+node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" select your-slug
+```
 
 ### 精灵图格式
 
 ```
-pets/<slug>/
+pets/your-slug/
 ├── pet.json            # id / displayName / description / spritesheetPath
 └── spritesheet.png     # 8 列 × 9 行，每帧 192×208（也支持 .webp）
 ```
