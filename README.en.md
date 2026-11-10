@@ -8,6 +8,8 @@ Compatible with the [petdex](https://petdex.dev) sprite format, and ships with a
 
 ![preview](https://cdn.jsdelivr.net/gh/WU55UY/petdex-overlay@main/docs/preview.gif)
 
+**Quick start**: `git clone https://github.com/WU55UY/petdex-overlay.git` → `powershell -ExecutionPolicy Bypass -File .\install.ps1` · [full install guide](#install) · Fully local, no network calls.
+
 <p>
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-green">
   <img alt="Windows" src="https://img.shields.io/badge/platform-Windows%2010%2F11-0078D4">

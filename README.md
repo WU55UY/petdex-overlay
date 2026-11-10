@@ -8,6 +8,8 @@ Windows 桌面悬浮宠物。它监听 **Cursor** / **Kimi Code** 的 hook：Age
 
 ![preview](https://cdn.jsdelivr.net/gh/WU55UY/petdex-overlay@main/docs/preview.gif)
 
+**快速开始**：`git clone https://github.com/WU55UY/petdex-overlay.git` → `powershell -ExecutionPolicy Bypass -File .\install.ps1` · [完整安装说明](#安装) · 纯本地运行，不联网、不上传代码或对话。
+
 <p>
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-green">
   <img alt="Windows" src="https://img.shields.io/badge/platform-Windows%2010%2F11-0078D4">

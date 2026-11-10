@@ -1,0 +1,20 @@
+name: Feature request
+about: Suggest an animation state, hook mapping, or loot rule
+title: "[Feature] "
+labels: enhancement
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This keeps the overlay local-only (no network requests)
+          required: true
+        - label: This does not bundle third-party game assets
+          required: true
