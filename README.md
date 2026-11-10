@@ -137,32 +137,32 @@ node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" select boba
 
 ### 提交到 Petdex 画廊
 
-[petdex](https://petdex.dev) 是宠物**素材包**的画廊，本仓库是读取该格式的独立 Windows 客户端，两者配套但互不隶属。画廊提交会进管理员队列，批准或拒绝都会发邮件；拒绝会附原因。`petdex edit` 会生成一条待审编辑（`pending edit`）重新进队列，不用重复 `submit`（限流 10 次 / 24h）。
+[petdex](https://petdex.dev) 是宠物**素材包**的画廊，本仓库是读取该格式的独立 Windows 客户端，两者配套但互不隶属。本次提交的「疾风 (Tempest)」slug 是 `jifeng-q`，当前 `PENDING REVIEW`。画廊提交会进管理员队列，批准或拒绝都会发邮件；拒绝会附原因。**审核中的宠物不能编辑**：`petdex edit` 返回 `only_approved_editable`，描述 / tags / license 都要等审核通过后才能改，且编辑会生成一条待审编辑重新进队列（不用重复 `submit`，限流 10 次 / 24h）。
 
 ```sh
 npx petdex login                       # OAuth 浏览器授权，凭据存系统钥匙串
 npx petdex submit ~/.codex/pets/tempest --license LICENSE_ID   # 首次提交；见下方许可说明
-npx petdex edit tempest --desc "..."    # 改描述；也支持 --displayName / --meta / --sprite
+npx petdex edit jifeng-q --desc "..."   # 仅审核通过后可用；也支持 --displayName / --meta / --sprite
 ```
 
 **字段约束**：`displayName` ≤ 60 字符，`description` ≤ 280 字符，`tags` 逗号分隔。精灵图 8×9 或 8×11 atlas、≥256×256，推荐 1536×1872。九个官方状态是 `idle` / `running-right` / `running-left` / `waving` / `jumping` / `failed` / `waiting` / `running` / `review`（与上面的格式表一致）。
 
-可直接粘贴的描述（`243 字符`，含状态、性格、来源和非官方声明）：
+可直接粘贴的描述（`266 字符`，含状态、性格、来源和非官方声明；审核通过后用 `petdex edit jifeng-q --desc "..."` 提交）：
 
 ```
-Tempest — chibi fan-art pet of the orange-haired Delta Force operator. 9 states: idle, run L/R, wave, jump, fail, wait, run, review. Calm under fire, quietly smug after a long tool call. 8x9 atlas. Unofficial; not affiliated with Tencent/TiMi.
+Tempest — chibi fan-art pet of the orange-haired Delta Force operator. 9 states: idle, running-right, running-left, waving, jumping, failed, waiting, running, review. Calm under fire, quietly smug after a long tool call. Unofficial; not affiliated with Tencent/TiMi.
 ```
 
 建议 tags：`delta-force, fan-art, chibi, tempest, agent-pet`。
 
-**授权口径**（对应 [NOTICE](NOTICE.md) 第 4 节）：`credit` 由 OAuth 身份决定，不接受提交表单，所以非官方声明要写进 description；`license` 是 per-pet 字段，`unspecified` 是未声明的诚实默认值，同人素材别默认成宽松许可。可选值 `cc0` / `cc-by` / `cc-by-sa` / `cc-by-nc` / `all-rights-reserved`，由你决定，别让工具替你选。角色与名称归原权利人，Petdex 有 [takedown 流程](https://petdex.dev/legal/takedown)，收到权利人请求即配合下架。
+**授权口径**（对应 [NOTICE](NOTICE.md) 第 4 节）：`credit` 由 OAuth 身份决定，不接受提交表单，所以非官方声明要写进 description；`license` 是 per-pet 字段，`unspecified` 是未声明的诚实默认值，同人素材别默认成宽松许可。可选值 `cc0` / `cc-by` / `cc-by-sa` / `cc-by-nc` / `all-rights-reserved`，由你决定，别让工具替你选。角色与名称归原权利人，Petdex 有 [takedown 流程](https://petdex.dev/legal/takedown)，收到权利人请求即配合下架。个人页的 `github.com/wu55uy` 外链由 Clerk 的 GitHub 账号自动带入、无法在站内改；项目地址已写进个人页 Bio。
 
-审核通过拿到 slug 后，一行命令就能从画廊导回本客户端，形成互相导流：
+本次提交的 slug 是 `jifeng-q`（审核中）；通过后一行命令就能从画廊导回本客户端，形成互相导流：
 
 ```powershell
-npx petdex install your-slug
-node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" add "$env:USERPROFILE\.codex\pets\your-slug"
-node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" select your-slug
+npx petdex install jifeng-q
+node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" add "$env:USERPROFILE\.codex\pets\jifeng-q"
+node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" select jifeng-q
 ```
 
 ### 精灵图格式

@@ -139,14 +139,17 @@ You can also drop a pet folder straight into `%USERPROFILE%\.petdex\pets\your-sl
 
 [petdex](https://petdex.dev) is the gallery for pet **asset packs**; this repository
 is an independent Windows client that reads that format. The two complement each
-other but are not affiliated. Submissions enter an admin queue, and approval or
-rejection is emailed (a rejection includes the reason). `petdex edit` opens a pending edit that re-enters
-the queue, so do not create a duplicate `submit` (rate-limited to 10 / 24h).
+other but are not affiliated. The submitted pet "疾风 (Tempest)" has slug `jifeng-q`
+and is currently `PENDING REVIEW`. Submissions enter an admin queue, and approval or
+rejection is emailed (a rejection includes the reason). **Pending submissions cannot
+be edited**: `petdex edit` returns `only_approved_editable`, so description / tags /
+license changes must wait for approval. An approved edit then opens a pending edit
+that re-enters the queue — do not create a duplicate `submit` (10 / 24h limit).
 
 ```sh
 npx petdex login                                        # OAuth; token in OS keychain
 npx petdex submit ~/.codex/pets/tempest --license LICENSE_ID
-npx petdex edit tempest --desc "..."                     # also --displayName / --meta / --sprite
+npx petdex edit jifeng-q --desc "..."                    # approved pets only; also --displayName / --meta / --sprite
 ```
 
 **Field limits**: `displayName` ≤ 60 characters, `description` ≤ 280, `tags`
@@ -155,11 +158,12 @@ recommended. The nine official states are `idle` / `running-right` /
 `running-left` / `waving` / `jumping` / `failed` / `waiting` / `running` /
 `review` — the same nine rows as the table below.
 
-Ready-to-paste description (`243 characters`, covering states, personality,
-provenance and the unofficial disclaimer):
+Ready-to-paste description (`266 characters`, covering states, personality,
+provenance and the unofficial disclaimer; submit it after approval with
+`petdex edit jifeng-q --desc "..."`):
 
 ```
-Tempest — chibi fan-art pet of the orange-haired Delta Force operator. 9 states: idle, run L/R, wave, jump, fail, wait, run, review. Calm under fire, quietly smug after a long tool call. 8x9 atlas. Unofficial; not affiliated with Tencent/TiMi.
+Tempest — chibi fan-art pet of the orange-haired Delta Force operator. 9 states: idle, running-right, running-left, waving, jumping, failed, waiting, running, review. Calm under fire, quietly smug after a long tool call. Unofficial; not affiliated with Tencent/TiMi.
 ```
 
 Suggested tags: `delta-force, fan-art, chibi, tempest, agent-pet`.
@@ -172,13 +176,16 @@ unofficial disclaimer belongs in `description`. `license` is a per-pet field and
 rights on your behalf. Character and
 names belong to their holders; Petdex runs a
 [takedown process](https://petdex.dev/legal/takedown) that we comply with.
+The `github.com/wu55uy` link on the profile is derived from the Clerk GitHub
+account and cannot be edited in Petdex; the project URL lives in the profile Bio.
 
-Once approved, the gallery and this client cross-link in one command:
+The submission slug is `jifeng-q` (pending review). Once approved, the gallery
+and this client cross-link in one command:
 
 ```powershell
-npx petdex install your-slug
-node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" add "$env:USERPROFILE\.codex\pets\your-slug"
-node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" select your-slug
+npx petdex install jifeng-q
+node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" add "$env:USERPROFILE\.codex\pets\jifeng-q"
+node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" select jifeng-q
 ```
 
 ### Sprite format

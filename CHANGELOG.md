@@ -5,6 +5,16 @@
 ### Added
 
 - Added `CONTRIBUTING.md`, structured issue forms and a quick-start command on the first screen of both READMEs.
+
+### Changed
+
+- The Petdex gallery guide now uses the real submission slug `jifeng-q` in both
+  READMEs, and documents that pending submissions cannot be edited
+  (`only_approved_editable`) — description / tags / license changes wait for approval.
+- Copy-ready description updated to the full nine official state names (266 chars);
+  removed the unverified sprite-atlas claim.
+- Documented that the profile's GitHub link comes from the Clerk GitHub account and
+  cannot be changed in Petdex; the project URL is carried in the profile Bio instead.
 All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
