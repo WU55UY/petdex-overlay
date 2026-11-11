@@ -8,7 +8,7 @@ Compatible with the [petdex](https://petdex.dev) sprite format. This repository 
 
 **Quick start**: `git clone https://github.com/WU55UY/petdex-overlay.git` → `powershell -ExecutionPolicy Bypass -File .\install.ps1` · [full install guide](#install) · Fully local, no network calls.
 
-![疾风](https://cdn.jsdelivr.net/gh/WU55UY/petdex-overlay@main/docs/preview.gif)
+![疾风](https://cdn.jsdelivr.net/gh/WU55UY/petdex-overlay@5341534/docs/preview.gif)
 
 ## Codex, read this first
 

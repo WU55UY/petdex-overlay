@@ -8,7 +8,7 @@ Windows 桌面悬浮宠物。它监听 **Codex** / **Cursor** / **Kimi Code** �
 
 **快速开始**：`git clone https://github.com/WU55UY/petdex-overlay.git` → `powershell -ExecutionPolicy Bypass -File .\install.ps1` · [完整安装说明](#安装) · 纯本地运行，不联网、不上传代码或对话。
 
-![疾风](https://cdn.jsdelivr.net/gh/WU55UY/petdex-overlay@main/docs/preview.gif)
+![疾风](https://cdn.jsdelivr.net/gh/WU55UY/petdex-overlay@5341534/docs/preview.gif)
 
 ## Codex 用户先看这里
 
