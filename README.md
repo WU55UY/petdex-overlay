@@ -8,12 +8,14 @@ Windows 桌面悬浮宠物。它监听 **Codex** / **Cursor** / **Kimi Code** �
 
 **快速开始**：`git clone https://github.com/WU55UY/petdex-overlay.git` → `powershell -ExecutionPolicy Bypass -File .\install.ps1` · [完整安装说明](#安装) · 纯本地运行，不联网、不上传代码或对话。
 
+![疾风](https://cdn.jsdelivr.net/gh/WU55UY/petdex-overlay@main/docs/preview.gif)
+
 ## Codex 用户先看这里
 
 Codex 里的宠物，和这个仓库的悬浮窗，是两件事。
 
-1. **Codex 自带宠物**走官方 Petdex，不用 clone 本仓库。`npx petdex install <slug>` 会装进 `~/.codex/pets/<slug>/`，然后在 Codex 的 **Settings → Appearance → Pets** 里选中。疾风的 slug 是 `jifeng-q`，画廊还在审核，公开执行 `npx petdex install jifeng-q` 现在装不到。审核通过之后，Codex 用这一行就够了，不需要下 GitHub。
-2. **本仓库**是 Windows 上的悬浮窗和盲盒，另外听 Codex、Cursor、Kimi Code 的 hook。仓库里自带的示例宠物是 Byte，不是疾风。疾风的精灵图在画廊，不放进这个 MIT 仓库，所以 clone 下来不会让 Codex 里出现疾风。
+1. **Codex 自带宠物**走官方 Petdex。`npx petdex install <slug>` 会装进 `~/.codex/pets/<slug>/`，然后在 Codex 的 **Settings → Appearance → Pets** 里选中。疾风的 slug 是 `jifeng-q`，画廊还在审核，公开执行 `npx petdex install jifeng-q` 现在装不到。审核通过之后，这一行就能从画廊安装。
+2. **本仓库**是 Windows 上的悬浮窗和盲盒，听 Codex、Cursor、Kimi Code 的 hook。`pets/jifeng-q` 就是疾风的精灵图，给还在审核时使用；它是同人素材，不在 MIT 许可里。Byte 只是格式示例。
 
 悬浮窗要跟着 Codex 动：
 
@@ -21,16 +23,17 @@ Codex 里的宠物，和这个仓库的悬浮窗，是两件事。
 git clone https://github.com/WU55UY/petdex-overlay.git
 cd petdex-overlay
 powershell -ExecutionPolicy Bypass -File .\install.ps1 -Agents codex
+Copy-Item .\pets\jifeng-q "$env:USERPROFILE\.codex\pets\jifeng-q" -Recurse
 ```
 
-装完打开 Codex，在 `/hooks` 里信任这次新增的 hook，否则 Codex 不会跑它们。手里已经有疾风的文件夹时，不用等画廊：复制到 `%USERPROFILE%\.codex\pets\jifeng-q\` 就能在 Codex 里选；悬浮窗再用：
+第一次安装时，悬浮窗会把疾风设为当前宠物。装完打开 Codex，在 `/hooks` 里信任这次新增的 hook，并在 **Settings → Appearance → Pets** 里选中 `jifeng-q`。已经装过、还停在 Byte 上的话：
 
 ```powershell
 node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" add "$env:USERPROFILE\.codex\pets\jifeng-q"
 node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" select jifeng-q
 ```
 
-审核通过后，上面的文件夹也可以改成官方安装得到的那一份：`npx petdex install jifeng-q`。
+审核通过后，也可以改用官方安装得到的那一份：`npx petdex install jifeng-q`。
 
 <p>
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-green">
@@ -111,7 +114,7 @@ node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" status
 
 1. 把 `overlay/` 复制到 `%USERPROFILE%\.petdex\overlay\`，再复制 `hooks/bridge.mjs`、`hooks/delay-down.mjs` 进去。
 2. 把 `data/items.json` 复制到 `%USERPROFILE%\.petdex\delta\items.json`。
-3. 把 `pets/sample/` 复制到 `%USERPROFILE%\.petdex\pets\sample\`，并创建 `active.json`：`{"slug":"sample"}`。
+3. 把 `pets/jifeng-q/` 复制到 `%USERPROFILE%\.petdex\pets\jifeng-q\`，并创建 `active.json`：`{"slug":"jifeng-q"}`。`pets/sample/` 是格式示例 Byte，可以不装。
 4. 按 [`integrations/codex`](integrations/codex)、[`integrations/cursor`](integrations/cursor) 或 [`integrations/kimi`](integrations/kimi) 的说明合并 hook 配置，把路径换成你的绝对路径。Codex 用的是 `~/.codex/hooks.json`。
 
 ## 使用
@@ -144,7 +147,7 @@ HUD：`今开N · 红N · 累计N · 待开N`。
 
 ## 宠物
 
-仓库自带 `pets/sample`（Byte），是一只用来演示精灵图格式的原创猫团子，不是疾风。想换成 petdex 画廊里的宠物：
+仓库自带 `pets/jifeng-q`（疾风）和 `pets/sample`（Byte，格式示例）。想换成 petdex 画廊里的其他宠物：
 
 ```powershell
 # 用 petdex 官方 CLI 安装到 ~/.codex/pets/your-slug
@@ -306,7 +309,8 @@ petdex-overlay/
 │   ├── cursor/                # hooks.json 片段 + /petdex 命令
 │   └── kimi/                  # config.toml 片段
 ├── data/items.json            # 521 件战利品
-├── pets/sample/               # 原创示例宠物
+├── pets/jifeng-q/             # 疾风，同人素材，非 MIT
+├── pets/sample/               # 原创示例宠物 Byte
 ├── tools/                     # 精灵图生成 / 预览渲染
 ├── tests/                     # loot + bridge + CLI 测试
 └── docs/                      # README 资源
@@ -336,6 +340,6 @@ node tests/codex-hooks.test.mjs
 
 - 精灵图格式与 [petdex](https://github.com/crafter-station/petdex) 生态来自 Crafter Station（MIT）。本项目是独立的 Windows 桌面客户端，不是官方项目。
 - 内置《三角洲行动》战利品数据是玩家整理的同人数据，权利归原权利方；仅用于本地娱乐。
-- 示例宠物 Byte 与所有代码由本项目以 MIT 发布。
+- 示例宠物 Byte 与所有代码由本项目以 MIT 发布。`pets/jifeng-q`（疾风）是同人素材，不在 MIT 里，见 [NOTICE.md](NOTICE.md)。
 
 代码：[MIT](LICENSE)。第三方内容说明见 [NOTICE.md](NOTICE.md)。

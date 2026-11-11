@@ -36,12 +36,19 @@ list works — see the "Loot rules" section of the [README](README.md).
 The overlay renders text with fonts already installed on the system and falls
 back to the Segoe UI family on Windows. No font files are redistributed here.
 
-## 4. Pet packs submitted to the Petdex gallery
+## 4. Bundled fan-art pet
 
-This repository is an independent Windows client that reads the petdex sprite
-format. Pet packs submitted to the [petdex gallery](https://petdex.dev) are
-separate works distributed through Petdex, not through this repository, and are
-**not** covered by the MIT grant above.
+`pets/sample` (Byte) is original and is covered by the MIT license above.
+
+`pets/jifeng-q` (疾风 / Tempest) is the author's own pending Petdex submission.
+It is bundled so Codex and this overlay can use the character before the
+gallery approves `jifeng-q`. That folder is **not** covered by the MIT grant.
+The character and likeness belong to their rights holders (Tencent / TiMi
+Studio Group). This project is not affiliated with or endorsed by them. A
+rights-holder request to remove it will be honored by deleting `pets/jifeng-q`.
+
+Other pet packs installed from the [petdex gallery](https://petdex.dev) stay
+under their own terms and are not relicensed by this repository.
 
 For fan-art packs (for example a chibi take on a *Delta Force* operator):
 

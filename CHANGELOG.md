@@ -9,7 +9,7 @@
 
 ### Changed
 
-- READMEs now separate Codex's built-in pet (`npx petdex install`, still blocked while `jifeng-q` is pending review) from this overlay. The first screen no longer shows the sample pet Byte, which is not 疾风.
+- READMEs now separate Codex's built-in pet (`npx petdex install`, still blocked while `jifeng-q` is pending review) from this overlay. The first screen shows 疾风 from `pets/jifeng-q`, the author's pending gallery submission. That pack is fan art and is not under the MIT license. Byte stays as the format sample. A first install selects `jifeng-q`.
 - The Petdex gallery guide now uses the real submission slug `jifeng-q` in both
   READMEs, and documents that pending submissions cannot be edited
   (`only_approved_editable`) — description / tags / license changes wait for approval.

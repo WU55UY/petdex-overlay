@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render docs/preview.png and docs/preview.gif from the sample sprite sheet.
+"""Render docs/preview.png and docs/preview.gif from the bundled 疾风 sprite sheet.
 
 This is a static mock of the real Win32 overlay: same frame grid, bubble colors,
 HUD text, and CJK font. It does not launch a window.
@@ -25,8 +25,15 @@ QUALITY = {
 
 def font(size: int):
     windir = os.environ.get("WINDIR", r"C:\Windows")
-    for name in ("msyh.ttc", "simhei.ttf", "segoeui.ttf"):
-        p = Path(windir) / "Fonts" / name
+    candidates = [
+        Path(windir) / "Fonts" / "msyh.ttc",
+        Path(windir) / "Fonts" / "simhei.ttf",
+        Path(windir) / "Fonts" / "segoeui.ttf",
+        Path("/System/Library/Fonts/PingFang.ttc"),
+        Path("/System/Library/Fonts/STHeiti Light.ttc"),
+        Path("/System/Library/Fonts/Hiragino Sans GB.ttc"),
+    ]
+    for p in candidates:
         if p.is_file():
             try:
                 return ImageFont.truetype(str(p), size)
@@ -63,7 +70,7 @@ def background() -> Image.Image:
     d.rounded_rectangle((36, 60, W - 36, 96), radius=18, fill=(246, 249, 252, 210))
     for i, color in enumerate([(255, 107, 107), (255, 196, 87), (98, 205, 128)]):
         d.ellipse((52 + i * 18, 72, 62 + i * 18, 82), fill=color)
-    d.text((120, 72), "Cursor — agent.ts", font=font(12), fill=(110, 126, 140))
+    d.text((120, 72), "Codex — agent.ts", font=font(12), fill=(110, 126, 140))
     return img
 
 
@@ -107,7 +114,16 @@ def main() -> None:
     docs = root / "docs"
     docs.mkdir(parents=True, exist_ok=True)
 
-    sheet = Image.open(root / "pets" / "sample" / "spritesheet.png").convert("RGBA")
+    sheet_path = next(
+        p
+        for p in (
+            root / "pets" / "jifeng-q" / "spritesheet.webp",
+            root / "pets" / "jifeng-q" / "spritesheet.png",
+            root / "pets" / "sample" / "spritesheet.png",
+        )
+        if p.is_file()
+    )
+    sheet = Image.open(sheet_path).convert("RGBA")
     frames = []
     for i in range(6):
         frame = sheet.crop((i * FRAME_W, 0, (i + 1) * FRAME_W, FRAME_H))

@@ -271,12 +271,13 @@ if (-not (Test-Path $itemsDst)) {
 $activePath = Join-Path $PetdexHome "active.json"
 if (-not (Test-Path $activePath)) {
     $utf8 = New-Object System.Text.UTF8Encoding($false)
-    [System.IO.File]::WriteAllText($activePath, '{"slug":"sample"}', $utf8)
+    [System.IO.File]::WriteAllText($activePath, '{"slug":"jifeng-q"}', $utf8)
 }
 $existingPets = @(Get-ChildItem $PetsDir -Directory -ErrorAction SilentlyContinue)
 if ($existingPets.Count -eq 0) {
     Copy-Item (Join-Path $Repo "pets\sample") $PetsDir -Recurse -Force
-    Write-Ok "sample pet installed"
+    Copy-Item (Join-Path $Repo "pets\jifeng-q") $PetsDir -Recurse -Force
+    Write-Ok "疾风 installed as the active pet; Byte kept as the format sample"
 } else {
     Write-Ok "$($existingPets.Count) pet(s) already installed, kept"
 }

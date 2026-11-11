@@ -8,12 +8,14 @@ Compatible with the [petdex](https://petdex.dev) sprite format. This repository 
 
 **Quick start**: `git clone https://github.com/WU55UY/petdex-overlay.git` → `powershell -ExecutionPolicy Bypass -File .\install.ps1` · [full install guide](#install) · Fully local, no network calls.
 
+![疾风](https://cdn.jsdelivr.net/gh/WU55UY/petdex-overlay@main/docs/preview.gif)
+
 ## Codex, read this first
 
 Codex's built-in pet and this repository's floating window are two different things.
 
-1. **Codex's own pet** comes from official Petdex. You do not need to clone this repo. `npx petdex install <slug>` drops the pack into `~/.codex/pets/<slug>/`, and you pick it in Codex under **Settings → Appearance → Pets**. 疾风 (Tempest) is slug `jifeng-q` and is still pending review, so `npx petdex install jifeng-q` does not work for the public yet. Once it is approved, that one command is enough inside Codex. GitHub is not required.
-2. **This repo** is the Windows floating window and the blind-box game. It listens to Codex, Cursor, and Kimi Code hooks. The bundled sample pet is Byte, not 疾风. The 疾风 spritesheet lives in the gallery and is not part of this MIT repo, so cloning it does not put 疾风 inside Codex.
+1. **Codex's own pet** comes from official Petdex. `npx petdex install <slug>` drops the pack into `~/.codex/pets/<slug>/`, and you pick it in Codex under **Settings → Appearance → Pets**. 疾风 (Tempest) is slug `jifeng-q` and is still pending review, so `npx petdex install jifeng-q` does not work for the public yet. After approval, that one command installs it from the gallery.
+2. **This repo** is the Windows floating window and the blind-box game. It listens to Codex, Cursor, and Kimi Code hooks. `pets/jifeng-q` is 疾风's spritesheet, included for use while the gallery review is still pending. It is fan art and is not under the MIT license. Byte remains only as a format sample.
 
 To make the floating window follow Codex:
 
@@ -21,16 +23,17 @@ To make the floating window follow Codex:
 git clone https://github.com/WU55UY/petdex-overlay.git
 cd petdex-overlay
 powershell -ExecutionPolicy Bypass -File .\install.ps1 -Agents codex
+Copy-Item .\pets\jifeng-q "$env:USERPROFILE\.codex\pets\jifeng-q" -Recurse
 ```
 
-After installing, open Codex and trust the new hooks once (`/hooks`). Codex will not run them until you do. If you already have the 疾风 folder, you do not have to wait for the gallery: copy it to `%USERPROFILE%\.codex\pets\jifeng-q\` and select it in Codex. Point the overlay at the same folder:
+A first install selects 疾风 as the overlay's active pet. After installing, open Codex, trust the new hooks once (`/hooks`), and choose `jifeng-q` under **Settings → Appearance → Pets**. If an older install is still on Byte:
 
 ```powershell
 node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" add "$env:USERPROFILE\.codex\pets\jifeng-q"
 node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" select jifeng-q
 ```
 
-After approval, `npx petdex install jifeng-q` produces that folder for you.
+After approval, `npx petdex install jifeng-q` can replace that folder with the gallery copy.
 
 <p>
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-green">
@@ -111,7 +114,7 @@ node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" status
 
 1. Copy `overlay/` into `%USERPROFILE%\.petdex\overlay\`, then copy `hooks/bridge.mjs` and `hooks/delay-down.mjs` into the same folder.
 2. Copy `data/items.json` to `%USERPROFILE%\.petdex\delta\items.json`.
-3. Copy `pets/sample/` to `%USERPROFILE%\.petdex\pets\sample\` and create `active.json`: `{"slug":"sample"}`.
+3. Copy `pets/jifeng-q/` to `%USERPROFILE%\.petdex\pets\jifeng-q\` and create `active.json`: `{"slug":"jifeng-q"}`. `pets/sample/` is Byte, the format sample, and can be skipped.
 4. Merge the hook config following [`integrations/codex`](integrations/codex), [`integrations/cursor`](integrations/cursor), or [`integrations/kimi`](integrations/kimi), replacing the paths with your own absolute paths. Codex uses `~/.codex/hooks.json`.
 
 ## Usage
@@ -144,7 +147,7 @@ HUD: `今开N · 红N · 累计N · 待开N` (opened today · reds · total · p
 
 ## Pets
 
-The repo ships `pets/sample` (Byte), an original cat blob that demonstrates the sprite format. It is not 疾风. To use a pet from the petdex gallery:
+The repo ships `pets/jifeng-q` (疾风) and `pets/sample` (Byte, the format sample). To use another pet from the petdex gallery:
 
 ```powershell
 # install it with the official petdex CLI into ~/.codex/pets/your-slug
@@ -329,7 +332,8 @@ petdex-overlay/
 │   ├── cursor/                # hooks.json fragment + /petdex command
 │   └── kimi/                  # config.toml fragment
 ├── data/items.json            # 521 loot entries
-├── pets/sample/               # original sample pet
+├── pets/jifeng-q/             # 疾风, fan art, not MIT
+├── pets/sample/               # original sample pet Byte
 ├── tools/                     # spritesheet generator / preview renderer
 ├── tests/                     # loot + bridge + CLI tests
 └── docs/                      # README assets
@@ -359,6 +363,6 @@ The tests run in temporary directories and never touch `%USERPROFILE%\.petdex`.
 
 - The sprite format and the [petdex](https://github.com/crafter-station/petdex) ecosystem come from Crafter Station (MIT). This project is an independent Windows client, not an official one.
 - The bundled *Delta Force* loot data is fan-collected; rights belong to the original rights holders and it is meant for local entertainment.
-- The sample pet Byte and all code are released under MIT by this project.
+- The sample pet Byte and all code are released under MIT by this project. `pets/jifeng-q` (疾风) is fan art and is not under MIT; see [NOTICE.md](NOTICE.md).
 
 Code: [MIT](LICENSE). Third-party notes: [NOTICE.md](NOTICE.md).
