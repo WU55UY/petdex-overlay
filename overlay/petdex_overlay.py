@@ -83,7 +83,7 @@ RUNTIME = PETDEX / "runtime"
 ACTIVE = PETDEX / "active.json"
 PETS = PETDEX / "pets"
 AUTO_EXIT = os.environ.get("PETDEX_AUTO_EXIT") == "1"
-AGENT_PROCESSES = os.environ.get("PETDEX_AGENT_PROCESSES") or "Cursor,Kimi Code,ZCode"
+AGENT_PROCESSES = os.environ.get("PETDEX_AGENT_PROCESSES") or "Cursor,Kimi Code,Codex,ZCode"
 DEFAULT_PET = "sample"
 
 FRAME_W, FRAME_H = 192, 208

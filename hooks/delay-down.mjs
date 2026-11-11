@@ -18,7 +18,7 @@ const ROOT = process.env.PETDEX_HOME
   : join(homedir(), ".petdex");
 const CLI = join(ROOT, "overlay", "petdex.mjs");
 const AGENT_PROCESSES =
-  process.env.PETDEX_AGENT_PROCESSES || "Cursor,Kimi Code,ZCode";
+  process.env.PETDEX_AGENT_PROCESSES || "Cursor,Kimi Code,Codex,ZCode";
 
 await new Promise((resolve) => setTimeout(resolve, delayMs));
 

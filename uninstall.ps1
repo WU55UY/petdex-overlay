@@ -23,6 +23,7 @@ $PetdexHome = if ($env:PETDEX_HOME) { $env:PETDEX_HOME } else { Join-Path $HomeD
 $OverlayDir = Join-Path $PetdexHome "overlay"
 $CursorDir = Join-Path $HomeDir ".cursor"
 $KimiDir = Join-Path $HomeDir ".kimi-code"
+$CodexDir = Join-Path $HomeDir ".codex"
 
 function Write-Step([string]$Text) { Write-Host "==> $Text" -ForegroundColor Cyan }
 function Write-Ok([string]$Text) { Write-Host "  ok  $Text" -ForegroundColor Green }
@@ -78,6 +79,16 @@ if (Test-Path $kimiConfig) {
     Write-Ok "Kimi Code hooks cleaned"
 }
 
+$codexHooks = Join-Path $CodexDir "hooks.json"
+if (Test-Path $codexHooks) {
+    Write-Step "Removing Codex hooks"
+    $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
+    Copy-Item $codexHooks "$codexHooks.petdex-uninstall-$stamp" -Force
+    & node (Join-Path $PSScriptRoot "tools\codex-hooks.mjs") remove $codexHooks
+    if ($LASTEXITCODE -ne 0) { throw "Failed to remove Codex hooks from $codexHooks" }
+    Write-Ok "Codex hooks cleaned"
+}
+
 if ($PurgeData) {
     Write-Step "Purging data"
     if (Test-Path $PetdexHome) {
@@ -99,4 +110,4 @@ if ($PurgeData) {
 }
 
 Write-Host ""
-Write-Host "Done. Restart Cursor / Kimi Code to drop the hook definitions." -ForegroundColor Green
+Write-Host "Done. Restart Codex / Cursor / Kimi Code to drop the hook definitions." -ForegroundColor Green

@@ -1,10 +1,10 @@
 {
   "name": "petdex-overlay",
   "version": "1.0.0",
-  "description": "A Windows always-on-top desktop pet for Cursor and Kimi Code, compatible with petdex sprite packs, with a local blind-box loot game.",
+  "description": "A Windows always-on-top desktop pet for Codex, Cursor, and Kimi Code, compatible with petdex sprite packs, with a local blind-box loot game.",
   "type": "module",
   "scripts": {
-    "test": "node --test tests/loot.test.mjs tests/bridge.test.mjs tests/petdex.test.mjs",
+    "test": "node --test tests/loot.test.mjs tests/bridge.test.mjs tests/petdex.test.mjs tests/codex-hooks.test.mjs",
     "check": "npm test && node overlay/petdex.mjs help",
     "pet": "python tools/make-sample-pet.py",
     "preview": "python tools/render-preview.py"
@@ -17,6 +17,7 @@
   ],
   "keywords": [
     "desktop-pet",
+    "codex",
     "cursor",
     "kimi-code",
     "petdex",

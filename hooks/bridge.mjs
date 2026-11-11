@@ -3,7 +3,7 @@
  * Agent → overlay hook entry point.
  *
  * Usage:
- *   node bridge.mjs <cursor|kimi> <event>   # preferred
+ *   node bridge.mjs <codex|cursor|kimi> <event>   # preferred
  *   node bridge.mjs <event>                 # agent defaults to "generic"
  *
  * The state machine lives in ../overlay/bridge-core.mjs. This wrapper only

@@ -44,7 +44,7 @@ const NO_SPAWN = process.env.PETDEX_NO_SPAWN === "1";
 const WATCHDOG_SELF = process.env.PETDEX_WATCHDOG_SELF === "1";
 const MANAGED_MARKER = join(RUNTIME, "managed");
 const AGENT_PROCESSES =
-  process.env.PETDEX_AGENT_PROCESSES || "Cursor,Kimi Code,ZCode";
+  process.env.PETDEX_AGENT_PROCESSES || "Cursor,Kimi Code,Codex,ZCode";
 
 const SPRITE_NAMES = [
   "spritesheet.webp",
@@ -752,6 +752,7 @@ function cmdDoctor() {
   }
 
   for (const [name, config, pattern] of [
+    ["Codex", join(homedir(), ".codex", "hooks.json"), /bridge\.mjs["']?\s+codex\b/],
     ["Cursor", join(homedir(), ".cursor", "hooks.json"), /bridge\.mjs/],
     ["Kimi Code", join(homedir(), ".kimi-code", "config.toml"), /bridge\.mjs/],
   ]) {
@@ -773,7 +774,7 @@ function cmdDoctor() {
 }
 
 function usage() {
-  say("petdex-overlay — Windows desktop pet for Cursor / Kimi Code");
+  say("petdex-overlay — Windows desktop pet for Codex / Cursor / Kimi Code");
   say(`
 Usage: node petdex.mjs <command> [args]
 

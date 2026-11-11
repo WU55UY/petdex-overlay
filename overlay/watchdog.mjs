@@ -27,7 +27,7 @@ const WATCHDOG_PID = join(ROOT, "watchdog.pid");
 const CLI = join(ROOT, "overlay", "petdex.mjs");
 const LOG = join(RUNTIME, "watchdog.log");
 const AGENT_PROCESSES =
-  process.env.PETDEX_AGENT_PROCESSES || "Cursor,Kimi Code,ZCode";
+  process.env.PETDEX_AGENT_PROCESSES || "Cursor,Kimi Code,Codex,ZCode";
 
 const POLL_MS = 2500;
 const GRACE_MS = 12000; // tolerate IDE restart / brief gaps

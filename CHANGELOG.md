@@ -4,10 +4,12 @@
 
 ### Added
 
+- Codex hook install and uninstall. `install.ps1 -Agents codex` merges command hooks into `%USERPROFILE%\.codex\hooks.json` (SessionStart, prompt, tools, permission wait, Stop, Interrupt) and leaves other hooks in place. Codex must trust them once under `/hooks`.
 - Added `CONTRIBUTING.md`, structured issue forms and a quick-start command on the first screen of both READMEs.
 
 ### Changed
 
+- READMEs now separate Codex's built-in pet (`npx petdex install`, still blocked while `jifeng-q` is pending review) from this overlay. The first screen no longer shows the sample pet Byte, which is not 疾风.
 - The Petdex gallery guide now uses the real submission slug `jifeng-q` in both
   READMEs, and documents that pending submissions cannot be edited
   (`only_approved_editable`) — description / tags / license changes wait for approval.

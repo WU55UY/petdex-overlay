@@ -83,6 +83,26 @@ test("cursor events drive state and bank a crate", async () => {
   assert.equal(loot.getStats().opens, 1);
 });
 
+test("codex session_id banks one crate", async () => {
+  const home = setup();
+  const payload = { session_id: "thr_123" };
+
+  await send(home, "codex", "workspace-open", payload);
+  assert.equal(readJson(home, "state.json").state, "idle");
+
+  await send(home, "codex", "user-prompt", payload);
+  assert.equal(readJson(home, "state.json").state, "jumping");
+
+  await send(home, "codex", "pre", payload);
+  await send(home, "codex", "notification", payload);
+  assert.equal(readJson(home, "state.json").state, "waiting");
+
+  await send(home, "codex", "stop", payload);
+  assert.match(readJson(home, "bubble.json").text, /入库/);
+  const loot = await loadLoot(home);
+  assert.equal(loot.pendingCount(), 1);
+});
+
 test("kimi interrupt also settles the turn", async () => {
   const home = setup();
   const payload = { session_id: "kimi-1" };

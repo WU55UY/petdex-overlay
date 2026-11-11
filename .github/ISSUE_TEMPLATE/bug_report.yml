@@ -30,9 +30,10 @@ body:
     attributes:
       label: Agent
       options:
+        - Codex
         - Cursor
         - Kimi Code
-        - Both
+        - More than one
         - Other / none
     validations:
       required: true

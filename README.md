@@ -2,13 +2,35 @@
 
 > 给 AI 编码 Agent 配一只会开盲盒的桌面搭子。
 
-Windows 桌面悬浮宠物。它监听 **Cursor** / **Kimi Code** 的 hook：Agent 思考时跳一下，调工具时来回跑，一轮结束入库一个密封盲盒。双击宠物开箱，攒仓库、点图鉴、吃保底。
+Windows 桌面悬浮宠物。它监听 **Codex** / **Cursor** / **Kimi Code** 的 hook：Agent 思考时跳一下，调工具时来回跑，一轮结束入库一个密封盲盒。双击宠物开箱，攒仓库、点图鉴、吃保底。
 
-兼容 [petdex](https://petdex.dev) 的精灵图格式（本仓库是独立客户端，非 petdex 官方项目），自带一只原创示例宠物 **Byte**。纯本地运行，不联网、不上传代码或对话。
-
-![preview](https://cdn.jsdelivr.net/gh/WU55UY/petdex-overlay@main/docs/preview.gif)
+兼容 [petdex](https://petdex.dev) 的精灵图格式（本仓库是独立客户端，非 petdex 官方项目）。纯本地运行，不联网、不上传代码或对话。
 
 **快速开始**：`git clone https://github.com/WU55UY/petdex-overlay.git` → `powershell -ExecutionPolicy Bypass -File .\install.ps1` · [完整安装说明](#安装) · 纯本地运行，不联网、不上传代码或对话。
+
+## Codex 用户先看这里
+
+Codex 里的宠物，和这个仓库的悬浮窗，是两件事。
+
+1. **Codex 自带宠物**走官方 Petdex，不用 clone 本仓库。`npx petdex install <slug>` 会装进 `~/.codex/pets/<slug>/`，然后在 Codex 的 **Settings → Appearance → Pets** 里选中。疾风的 slug 是 `jifeng-q`，画廊还在审核，公开执行 `npx petdex install jifeng-q` 现在装不到。审核通过之后，Codex 用这一行就够了，不需要下 GitHub。
+2. **本仓库**是 Windows 上的悬浮窗和盲盒，另外听 Codex、Cursor、Kimi Code 的 hook。仓库里自带的示例宠物是 Byte，不是疾风。疾风的精灵图在画廊，不放进这个 MIT 仓库，所以 clone 下来不会让 Codex 里出现疾风。
+
+悬浮窗要跟着 Codex 动：
+
+```powershell
+git clone https://github.com/WU55UY/petdex-overlay.git
+cd petdex-overlay
+powershell -ExecutionPolicy Bypass -File .\install.ps1 -Agents codex
+```
+
+装完打开 Codex，在 `/hooks` 里信任这次新增的 hook，否则 Codex 不会跑它们。手里已经有疾风的文件夹时，不用等画廊：复制到 `%USERPROFILE%\.codex\pets\jifeng-q\` 就能在 Codex 里选；悬浮窗再用：
+
+```powershell
+node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" add "$env:USERPROFILE\.codex\pets\jifeng-q"
+node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" select jifeng-q
+```
+
+审核通过后，上面的文件夹也可以改成官方安装得到的那一份：`npx petdex install jifeng-q`。
 
 <p>
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-green">
@@ -24,7 +46,7 @@ Windows 桌面悬浮宠物。它监听 **Cursor** / **Kimi Code** 的 hook：Age
 ## 它是什么
 
 ```
-Cursor / Kimi Code
+Codex / Cursor / Kimi Code
       │  hook events (prompt / tool / stop)
       ▼
   bridge.mjs  ──►  %USERPROFILE%\.petdex\runtime\*.json
@@ -50,7 +72,7 @@ Cursor / Kimi Code
 | Node.js 18+ | hook 桥接、CLI、盲盒引擎 |
 | Python 3.10+ | 悬浮层渲染 |
 | Pillow + pywin32 | `python -m pip install pillow pywin32` |
-| Cursor 和/或 Kimi Code | 需要支持 hooks 的版本 |
+| Codex、Cursor 和/或 Kimi Code | 需要支持 hooks 的版本。Codex 还要在 `/hooks` 里信任一次 |
 
 ## 安装
 
@@ -64,18 +86,18 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 
 1. 把运行时复制到 `%USERPROFILE%\.petdex\overlay\`；
 2. 首次安装时写入示例宠物、战利品表，**不覆盖已有存档**；
-3. 检测本机的 Cursor / Kimi Code，合并 hook 配置（修改前自动备份）；
+3. 检测本机的 Codex / Cursor / Kimi Code，合并 hook 配置（修改前自动备份）；
 4. 安装 Cursor 的 `/petdex` 斜杠命令；
 5. 检查 Python 依赖并启动宠物。
 
 常用参数：
 
 ```powershell
-# 只装 Cursor，不自动启动
-powershell -ExecutionPolicy Bypass -File .\install.ps1 -Agents cursor -NoStart
+# 只装 Codex，不自动启动
+powershell -ExecutionPolicy Bypass -File .\install.ps1 -Agents codex -NoStart
 
-# 同时装 Cursor + Kimi Code
-powershell -ExecutionPolicy Bypass -File .\install.ps1 -Agents cursor,kimi
+# 同时装 Codex + Cursor + Kimi Code
+powershell -ExecutionPolicy Bypass -File .\install.ps1 -Agents codex,cursor,kimi
 ```
 
 > 装完重开一次 IDE，让 hooks 生效。验证：
@@ -90,7 +112,7 @@ node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" status
 1. 把 `overlay/` 复制到 `%USERPROFILE%\.petdex\overlay\`，再复制 `hooks/bridge.mjs`、`hooks/delay-down.mjs` 进去。
 2. 把 `data/items.json` 复制到 `%USERPROFILE%\.petdex\delta\items.json`。
 3. 把 `pets/sample/` 复制到 `%USERPROFILE%\.petdex\pets\sample\`，并创建 `active.json`：`{"slug":"sample"}`。
-4. 按 [`integrations/cursor`](integrations/cursor) 或 [`integrations/kimi`](integrations/kimi) 的说明合并 hook 配置，把路径换成你的绝对路径。
+4. 按 [`integrations/codex`](integrations/codex)、[`integrations/cursor`](integrations/cursor) 或 [`integrations/kimi`](integrations/kimi) 的说明合并 hook 配置，把路径换成你的绝对路径。Codex 用的是 `~/.codex/hooks.json`。
 
 ## 使用
 
@@ -122,7 +144,7 @@ HUD：`今开N · 红N · 累计N · 待开N`。
 
 ## 宠物
 
-仓库自带 `pets/sample`（Byte），是一只原创的猫团子。想换成 petdex 画廊里的宠物：
+仓库自带 `pets/sample`（Byte），是一只用来演示精灵图格式的原创猫团子，不是疾风。想换成 petdex 画廊里的宠物：
 
 ```powershell
 # 用 petdex 官方 CLI 安装到 ~/.codex/pets/your-slug
@@ -223,7 +245,7 @@ pets/your-slug/
 | `PETDEX_HOME` | `%USERPROFILE%\.petdex` | 数据与运行时根目录 |
 | `PETDEX_PYTHONW` | 自动查找 | 指定 `pythonw.exe` |
 | `PETDEX_NODE` | 自动查找 | 指定 `node.exe`（Python 调面板时用） |
-| `PETDEX_AGENT_PROCESSES` | `Cursor,Kimi Code,ZCode` | 判定「IDE 是否还开着」的进程名，逗号分隔 |
+| `PETDEX_AGENT_PROCESSES` | `Cursor,Kimi Code,Codex,ZCode` | 判定「IDE 是否还开着」的进程名，逗号分隔 |
 | `PETDEX_NO_SPAWN` | 未设置 | 设为 `1` 时不真正启动悬浮层，便于测试 |
 | `PETDEX_AUTO_EXIT` | 由 hook 设置为 `1` | 没有 IDE 进程 12 秒后自动退出；手动 `up` 不设置 |
 
@@ -241,7 +263,7 @@ New-Item -ItemType File -Force "$env:USERPROFILE\.petdex\runtime\hooks-disabled"
 |------|------|
 | 宠物不出现 | `node ...\petdex.mjs doctor`；看 `%USERPROFILE%\.petdex\runtime\overlay.log`；确认 `python -c "import PIL, win32py"` 能过 |
 | `pythonw.exe not found` | 安装 Python 并勾选 Add to PATH，或 `python -m pip install pillow pywin32` |
-| IDE 有反应但宠物不动 | 看 `runtime\boot.log` 是否有 hook 事件；重开 IDE；确认 `hooks.json` / `config.toml` 里有 `bridge.mjs` |
+| IDE 有反应但宠物不动 | 看 `runtime\boot.log` 是否有 hook 事件；重开 IDE；确认 `hooks.json` / `config.toml` 里有 `bridge.mjs`。Codex 还要在 `/hooks` 里信任一次 |
 | 宠物被壁纸挡住 | 某些 Wallpaper Engine 场景也是置顶窗口；把壁纸设为非置顶，或右键宠物重开 |
 | 右键关掉后不再出现 | hook 管理的实例会在下次 prompt / workspaceOpen 时重启；也可手动 `up` |
 | 多个窗口只显示一只 | 这是设计：全机一只宠物，按会话统计 inflight |
@@ -280,6 +302,7 @@ petdex-overlay/
 │   ├── bridge.mjs             # stdin + 锁 + 调用核心
 │   └── delay-down.mjs         # 多窗口关闭防误杀
 ├── integrations/
+│   ├── codex/                 # hooks.json 片段（~/.codex/hooks.json）
 │   ├── cursor/                # hooks.json 片段 + /petdex 命令
 │   └── kimi/                  # config.toml 片段
 ├── data/items.json            # 521 件战利品
@@ -298,6 +321,7 @@ npm run check   # 测试 + CLI 冒烟
 node tests/loot.test.mjs
 node tests/bridge.test.mjs
 node tests/petdex.test.mjs
+node tests/codex-hooks.test.mjs
 ```
 
 测试会在临时目录里跑，不碰 `%USERPROFILE%\.petdex`。

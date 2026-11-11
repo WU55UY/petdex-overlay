@@ -5,12 +5,12 @@
 
 .DESCRIPTION
   Copies the overlay runtime, seeds the sample pet + loot catalog (without
-  touching existing saves), installs hook entries for Cursor and/or Kimi Code,
-  and optionally starts the pet.
+  touching existing saves), installs hook entries for Codex, Cursor, and/or
+  Kimi Code, and optionally starts the pet.
 
 .PARAMETER Agents
-  One or more of: cursor, kimi. Defaults to every supported agent found on
-  this machine.
+  One or more of: codex, cursor, kimi. Defaults to every supported agent found
+  on this machine.
 
 .PARAMETER NoStart
   Install files and hooks, but do not start the overlay.
@@ -37,6 +37,7 @@ $DeltaDir = Join-Path $PetdexHome "delta"
 $RuntimeDir = Join-Path $PetdexHome "runtime"
 $CursorDir = Join-Path $HomeDir ".cursor"
 $KimiDir = Join-Path $HomeDir ".kimi-code"
+$CodexDir = Join-Path $HomeDir ".codex"
 
 function Write-Step([string]$Text) { Write-Host "==> $Text" -ForegroundColor Cyan }
 function Write-Ok([string]$Text) { Write-Host "  ok  $Text" -ForegroundColor Green }
@@ -209,6 +210,17 @@ function Install-KimiHooks([string]$NodeExe, [string]$Bridge) {
     Write-Ok "Kimi Code hooks merged into $configPath"
 }
 
+function Install-CodexHooks([string]$NodeExe, [string]$Bridge) {
+    New-Item -ItemType Directory -Force -Path $CodexDir | Out-Null
+    $hooksPath = Join-Path $CodexDir "hooks.json"
+    if (Test-Path $hooksPath) { Backup-File $hooksPath }
+    $commandBase = '"' + $NodeExe + '" "' + $Bridge + '" codex'
+    & $NodeExe (Join-Path $Repo "tools\codex-hooks.mjs") merge $hooksPath $commandBase
+    if ($LASTEXITCODE -ne 0) { throw "Failed to merge Codex hooks into $hooksPath" }
+    Write-Ok "Codex hooks merged into $hooksPath"
+    Write-Warn "Open Codex and trust the new hooks once (/hooks). Until then Codex will not run them."
+}
+
 # ---------------------------------------------------------------------------
 
 Write-Host ""
@@ -219,10 +231,11 @@ Write-Host ""
 
 if (-not $Agents -or $Agents.Count -eq 0) {
     $Agents = @()
+    if (Test-Path $CodexDir) { $Agents += "codex" }
     if (Test-Path $CursorDir) { $Agents += "cursor" }
     if (Test-Path $KimiDir) { $Agents += "kimi" }
     if ($Agents.Count -eq 0) {
-        Write-Warn "No Cursor / Kimi Code config folder found; installing the overlay only."
+        Write-Warn "No Codex / Cursor / Kimi Code config folder found; installing the overlay only."
         $Agents = @()
     }
 }
@@ -234,7 +247,7 @@ $Agents = @(
         Select-Object -Unique
 )
 foreach ($a in $Agents) {
-    if ($a -notin @("cursor", "kimi")) { throw "Unknown agent: $a (expected cursor or kimi)" }
+    if ($a -notin @("codex", "cursor", "kimi")) { throw "Unknown agent: $a (expected codex, cursor, or kimi)" }
 }
 
 $node = Find-NodeExe
@@ -296,6 +309,10 @@ if ($Agents -contains "kimi") {
     Write-Step "Installing Kimi Code hooks"
     Install-KimiHooks -NodeExe $node -Bridge $bridge
 }
+if ($Agents -contains "codex") {
+    Write-Step "Installing Codex hooks"
+    Install-CodexHooks -NodeExe $node -Bridge $bridge
+}
 
 if (-not $NoStart) {
     if ($pythonOk) {
@@ -311,5 +328,5 @@ Write-Host "Done." -ForegroundColor Green
 Write-Host "  Check:  node `"$OverlayDir\petdex.mjs`" doctor"
 Write-Host "  Status: node `"$OverlayDir\petdex.mjs`" status"
 Write-Host ""
-Write-Host "Open Cursor / Kimi Code and send a prompt. The pet reacts to hook events."
+Write-Host "Open Codex / Cursor / Kimi Code and send a prompt. The pet reacts to hook events."
 Write-Host "Right-click the pet to close it; double-click opens one pending crate."

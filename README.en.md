@@ -2,13 +2,35 @@
 
 > A desktop sidekick that opens blind boxes for your AI coding agent.
 
-A floating Windows desktop pet. It listens to **Cursor** / **Kimi Code** hooks: it jumps when the agent starts thinking, runs back and forth while tools are being called, and banks a sealed crate every time a turn ends. Double-click the pet to open a crate, build up a warehouse, fill the codex, and lean on pity to land the red drops.
+A floating Windows desktop pet. It listens to **Codex** / **Cursor** / **Kimi Code** hooks: it jumps when the agent starts thinking, runs back and forth while tools are being called, and banks a sealed crate every time a turn ends. Double-click the pet to open a crate, build up a warehouse, fill the codex, and lean on pity to land the red drops.
 
-Compatible with the [petdex](https://petdex.dev) sprite format, and ships with an original sample pet, **Byte**. Fully local: no network calls, no code or conversation ever leaves the machine.
-
-![preview](https://cdn.jsdelivr.net/gh/WU55UY/petdex-overlay@main/docs/preview.gif)
+Compatible with the [petdex](https://petdex.dev) sprite format. This repository is an independent client, not an official petdex project. Fully local: no network calls, no code or conversation ever leaves the machine.
 
 **Quick start**: `git clone https://github.com/WU55UY/petdex-overlay.git` → `powershell -ExecutionPolicy Bypass -File .\install.ps1` · [full install guide](#install) · Fully local, no network calls.
+
+## Codex, read this first
+
+Codex's built-in pet and this repository's floating window are two different things.
+
+1. **Codex's own pet** comes from official Petdex. You do not need to clone this repo. `npx petdex install <slug>` drops the pack into `~/.codex/pets/<slug>/`, and you pick it in Codex under **Settings → Appearance → Pets**. 疾风 (Tempest) is slug `jifeng-q` and is still pending review, so `npx petdex install jifeng-q` does not work for the public yet. Once it is approved, that one command is enough inside Codex. GitHub is not required.
+2. **This repo** is the Windows floating window and the blind-box game. It listens to Codex, Cursor, and Kimi Code hooks. The bundled sample pet is Byte, not 疾风. The 疾风 spritesheet lives in the gallery and is not part of this MIT repo, so cloning it does not put 疾风 inside Codex.
+
+To make the floating window follow Codex:
+
+```powershell
+git clone https://github.com/WU55UY/petdex-overlay.git
+cd petdex-overlay
+powershell -ExecutionPolicy Bypass -File .\install.ps1 -Agents codex
+```
+
+After installing, open Codex and trust the new hooks once (`/hooks`). Codex will not run them until you do. If you already have the 疾风 folder, you do not have to wait for the gallery: copy it to `%USERPROFILE%\.codex\pets\jifeng-q\` and select it in Codex. Point the overlay at the same folder:
+
+```powershell
+node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" add "$env:USERPROFILE\.codex\pets\jifeng-q"
+node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" select jifeng-q
+```
+
+After approval, `npx petdex install jifeng-q` produces that folder for you.
 
 <p>
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-green">
@@ -24,7 +46,7 @@ Compatible with the [petdex](https://petdex.dev) sprite format, and ships with a
 ## How it works
 
 ```
-Cursor / Kimi Code
+Codex / Cursor / Kimi Code
       │  hook events (prompt / tool / stop)
       ▼
   bridge.mjs  ──►  %USERPROFILE%\.petdex\runtime\*.json
@@ -50,7 +72,7 @@ Cursor / Kimi Code
 | Node.js 18+ | hook bridge, CLI, and the crate engine |
 | Python 3.10+ | renders the floating layer |
 | Pillow + pywin32 | `python -m pip install pillow pywin32` |
-| Cursor and/or Kimi Code | a version that supports hooks |
+| Codex, Cursor, and/or Kimi Code | a version that supports hooks. Codex also needs a one-time trust in `/hooks` |
 
 ## Install
 
@@ -64,18 +86,18 @@ The installer will:
 
 1. copy the runtime into `%USERPROFILE%\.petdex\overlay\`;
 2. seed the sample pet and the loot catalog on first install, **without touching an existing save**;
-3. detect local Cursor / Kimi Code and merge the hook config (backing up the original first);
+3. detect local Codex / Cursor / Kimi Code and merge the hook config (backing up the original first);
 4. install the Cursor `/petdex` slash command;
 5. check the Python dependencies and start the pet.
 
 Common flags:
 
 ```powershell
-# Cursor only, do not start the pet
-powershell -ExecutionPolicy Bypass -File .\install.ps1 -Agents cursor -NoStart
+# Codex only, do not start the pet
+powershell -ExecutionPolicy Bypass -File .\install.ps1 -Agents codex -NoStart
 
-# Cursor + Kimi Code
-powershell -ExecutionPolicy Bypass -File .\install.ps1 -Agents cursor,kimi
+# Codex + Cursor + Kimi Code
+powershell -ExecutionPolicy Bypass -File .\install.ps1 -Agents codex,cursor,kimi
 ```
 
 > Restart the IDE once after installing so the hooks are picked up. Verify with:
@@ -90,7 +112,7 @@ node "$env:USERPROFILE\.petdex\overlay\petdex.mjs" status
 1. Copy `overlay/` into `%USERPROFILE%\.petdex\overlay\`, then copy `hooks/bridge.mjs` and `hooks/delay-down.mjs` into the same folder.
 2. Copy `data/items.json` to `%USERPROFILE%\.petdex\delta\items.json`.
 3. Copy `pets/sample/` to `%USERPROFILE%\.petdex\pets\sample\` and create `active.json`: `{"slug":"sample"}`.
-4. Merge the hook config following [`integrations/cursor`](integrations/cursor) or [`integrations/kimi`](integrations/kimi), replacing the paths with your own absolute paths.
+4. Merge the hook config following [`integrations/codex`](integrations/codex), [`integrations/cursor`](integrations/cursor), or [`integrations/kimi`](integrations/kimi), replacing the paths with your own absolute paths. Codex uses `~/.codex/hooks.json`.
 
 ## Usage
 
@@ -122,7 +144,7 @@ HUD: `今开N · 红N · 累计N · 待开N` (opened today · reds · total · p
 
 ## Pets
 
-The repo ships `pets/sample` (Byte), an original cat blob. To use a pet from the petdex gallery:
+The repo ships `pets/sample` (Byte), an original cat blob that demonstrates the sprite format. It is not 疾风. To use a pet from the petdex gallery:
 
 ```powershell
 # install it with the official petdex CLI into ~/.codex/pets/your-slug
@@ -246,7 +268,7 @@ The loot catalog is `data/items.json` and can be swapped wholesale for your own 
 | `PETDEX_HOME` | `%USERPROFILE%\.petdex` | data and runtime root |
 | `PETDEX_PYTHONW` | auto-detected | which `pythonw.exe` to use |
 | `PETDEX_NODE` | auto-detected | which `node.exe` Python uses for panels |
-| `PETDEX_AGENT_PROCESSES` | `Cursor,Kimi Code,ZCode` | process names that mean "the IDE is still open", comma separated |
+| `PETDEX_AGENT_PROCESSES` | `Cursor,Kimi Code,Codex,ZCode` | process names that mean "the IDE is still open", comma separated |
 | `PETDEX_NO_SPAWN` | unset | set to `1` to never actually launch the floating layer (testing) |
 | `PETDEX_AUTO_EXIT` | set to `1` by hooks | exit 12 s after no IDE process is found; manual `up` leaves it unset |
 
@@ -264,7 +286,7 @@ Delete the file to resume.
 |---------|-----|
 | the pet never shows up | `node ...\petdex.mjs doctor`; check `%USERPROFILE%\.petdex\runtime\overlay.log`; make sure `python -c "import PIL, win32gui"` works |
 | `pythonw.exe not found` | install Python and tick Add to PATH, or `python -m pip install pillow pywin32` |
-| the IDE reacts but the pet does not move | check `runtime\boot.log` for hook events; restart the IDE; confirm `bridge.mjs` is in `hooks.json` / `config.toml` |
+| the IDE reacts but the pet does not move | check `runtime\boot.log` for hook events; restart the IDE; confirm `bridge.mjs` is in `hooks.json` / `config.toml`. In Codex, trust the hooks once under `/hooks` |
 | the pet hides behind the wallpaper | some Wallpaper Engine scenes are also topmost; make the wallpaper non-topmost, or right-click the pet to restart |
 | right-clicked it away and it stays gone | hook-managed instances restart on the next prompt / workspaceOpen; or run `up` manually |
 | several windows, one pet | by design: one pet per machine, inflight counted per session |
@@ -303,6 +325,7 @@ petdex-overlay/
 │   ├── bridge.mjs             # stdin + lock + call into the core
 │   └── delay-down.mjs         # prevents killing the pet when one window closes
 ├── integrations/
+│   ├── codex/                 # hooks.json fragment (~/.codex/hooks.json)
 │   ├── cursor/                # hooks.json fragment + /petdex command
 │   └── kimi/                  # config.toml fragment
 ├── data/items.json            # 521 loot entries
@@ -321,6 +344,7 @@ npm run check   # tests + a CLI smoke check
 node tests/loot.test.mjs
 node tests/bridge.test.mjs
 node tests/petdex.test.mjs
+node tests/codex-hooks.test.mjs
 ```
 
 The tests run in temporary directories and never touch `%USERPROFILE%\.petdex`.
